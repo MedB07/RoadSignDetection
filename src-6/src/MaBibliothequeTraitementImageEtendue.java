@@ -217,6 +217,6 @@ public class MaBibliothequeTraitementImageEtendue {
 		taille=graySign.size();
 		double res;
 		res=taille.height*taille.width-sco;
-		return -1;
+		return res;
 	}
 }

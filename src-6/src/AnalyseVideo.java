@@ -40,6 +40,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 public class AnalyseVideo {
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		
 	}
 
 	static Mat imag = null;
@@ -54,7 +55,7 @@ public class AnalyseVideo {
 		jframe.setVisible(true);
 
 		Mat frame = new Mat();
-		VideoCapture camera = new VideoCapture("video1.avi");
+		VideoCapture camera = new VideoCapture("video1.wm");
 		Mat PanneauAAnalyser = null;
 
 			while (camera.read(frame)) {

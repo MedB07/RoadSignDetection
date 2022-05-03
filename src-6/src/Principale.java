@@ -35,7 +35,7 @@ public class Principale {
 
 	public static void main(String[] args) {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		Mat mat = LectureImage("images/PanneauRoute/panneau_110_2.jpg");
+		Mat mat = LectureImage("p0.jpg");
 		Vector<Mat> channels = decompHSV(mat);
 		ImShow("HSV_1",channels.get(0));
 		ImShow("HSV_2",channels.get(1));
@@ -51,7 +51,7 @@ public class Principale {
 		//List<MatOfPoint> contours = DetecterContours_Seuil(mat,rouge_min, rouge_max, rouge_min_2,rouge_max_2);
 		List<Mat> panneaux = DetecterPanneau_Seuil(mat,rouge_min, rouge_max, rouge_min_2,rouge_max_2);
 		Mat panneau = panneaux.get(0);
-		Mat panneau_test = Highgui.imread("images/EchantillonPanneau/panneau_110.jpg");
+		Mat panneau_test = Highgui.imread("ref30.jpg");
 		Mat panneau_resize = MiseEchelle(panneau,panneau_test);
 		//ImShow("panneau_test",panneau_test);
 		//ImShow("resize",panneau_resize);
@@ -60,8 +60,8 @@ public class Principale {
 	}
 	
 	public static Vector<Mat> decompHSV (Mat mat) {
-	Mat output = Mat.zeros(mat.size(),  mat.type());
-	Imgproc.cvtColor(mat,  output,  Imgproc.COLOR_BGR2HSV);
+	Mat output = Mat.zeros(mat.height(),mat.cols(),  mat.type());
+	Imgproc.cvtColor(mat,output,Imgproc.COLOR_BGR2HSV);
 	ImShow("HSV",output);
 	Vector<Mat> channels = new Vector<Mat>();
 	Core.split(output,  channels);;

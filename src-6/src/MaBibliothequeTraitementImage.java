@@ -56,6 +56,24 @@ public class MaBibliothequeTraitementImage {
 		return channels;
 	}
 
+	public static Mat seuillage(Mat input, int seuilRougeOrange, int seuilRougeViolet,int seuilSaturation){
+		Mat m = input;
+        Mat threshold_img1 = new Mat();
+        Mat threshold_img2 = new Mat();
+        Mat threshold_img = new Mat();
+
+        Core.inRange(m, new Scalar(0,seuilSaturation,100), new Scalar(seuilRougeOrange,255,255), threshold_img1);
+        Core.inRange(m, new Scalar(seuilRougeViolet,seuilSaturation,100), new Scalar(255,255,255), threshold_img2);
+        Core.bitwise_or(threshold_img1 , threshold_img2, threshold_img);
+        Imgproc.GaussianBlur(threshold_img, threshold_img, new Size(9,9), 2,2);
+        return threshold_img;
+		//image saturée à retourner
+
+
+
+	}
+
+	
 	//Methode qui permet d'afficher une image dans une fenetre java independante
 	public static void afficheImage(String title, Mat img){
 		MatOfByte matOfByte=new MatOfByte();
