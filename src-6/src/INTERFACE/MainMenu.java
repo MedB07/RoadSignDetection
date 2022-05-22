@@ -51,7 +51,7 @@ public class MainMenu {
 	//JLabel vidpanel = new JLabel();
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		System.load("C:\\Users\\nadra\\Downloads\\opencv\\build\\x64\\vc12\\bin\\opencv_ffmpeg2413_64.dll");
+		System.load("C:\\Program Files\\opencv\\build\\x64\\vc12\\bin\\opencv_ffmpeg2413_64.dll");
 
 	}
 
@@ -76,13 +76,14 @@ public class MainMenu {
 	class Multi extends Thread{  
 		public void run(){  
 			System.out.println("thread is running...");
-			int s=0;
+			//int s=0;
 			Mat Jframe = new Mat();
 			VideoCapture camera = new VideoCapture(path);
 			Mat PanneauAAnalyser = null;
+			double [] scores=new double [6];
 			while (camera.read(Jframe)&&running==1) {
-				s++;
-			if (s>5){
+				//s++;
+			//if (s>3){
 				Mat transformee = MaBibliothequeTraitementImageEtendue.transformeBGRversHSV(Jframe);
 				//la methode seuillage est ici extraite de l'archivage jar du meme nom 
 				Mat saturee = MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
@@ -93,17 +94,39 @@ public class MainMenu {
 				List<MatOfPoint> ListeContours = MaBibliothequeTraitementImageEtendue .ExtractContours(saturee);
 				//Pour tous les contours de la liste
 				
+				int i=0;
+				int a =0;  //compteur de null
+				
 				for (MatOfPoint contour: ListeContours  ){
 					// isole la forme
 					objetrond=MaBibliothequeTraitementImageEtendue.DetectForm(Jframe,contour);
-			        int indexemax = identifiepanneau(objetrond) ;
+					i++;
+					
+					//int indexemax = identifiepanneau(objetrond) ;
 					
 					if (objetrond!=null){
-				    Image img;
+					MaBibliothequeTraitementImage.afficheImage("Objet rond detécté", objetrond);
+					scores[0]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref30.jpg");
+					scores[1]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref50.jpg");
+					scores[2]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref70.jpg");
+					scores[3]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref90.jpg");
+					scores[4]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref110.jpg");
+					scores[5]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"refdouble.jpg");						
+					double scoremax=-1;
+					int indexmax=0;
+					for(int j=0;j<scores.length;j++){
+						if (scores[j]>scoremax){
+							scoremax=scores[j];
+							indexmax=j;}
+						}
+				
+				System.out.println(indexmax);
+					
+					Image img;
 					Image dimg;
 					ImageIcon imageIcon;
 					//MaBibliothequeTraitementImageEtendue.afficheImage("Image testee", Jframe);				
-					switch(indexemax /*Change toindexemax*/){
+					switch(indexmax /*Change toindexemax*/){
 					case -1:break;
 					case 0:
 						refpann="ref30.jpg";
@@ -197,10 +220,23 @@ public class MainMenu {
 							e.printStackTrace();
 						}
 				          
-					}} }
+					}}
+					if(objetrond==null) {
+						a++;
+					}
+					if(a==6) {
+						scores[0]=0;
+						scores[1]=0;
+						scores[2]=0;
+						scores[3]=0;
+						scores[4]=0;
+						scores[5]=0;
+						a=0;	
+					}	
+				}
 			
-			s=0;
-			}
+			//s=0;
+			//}
 			
 					ImageIcon image = new ImageIcon(Mat2bufferedImage(Jframe));
 				
