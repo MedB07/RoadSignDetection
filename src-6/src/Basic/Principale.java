@@ -14,7 +14,7 @@ public class Principale {
 	{
 		//Ouverture le l'image et saturation des rouges
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		System.load("C:\\Users\\nadra\\Downloads\\opencv\\build\\x64\\vc12\\bin\\opencv_ffmpeg2413_64.dll");
+		System.load("C:\\Program Files\\opencv\\build\\x64\\vc12\\bin\\opencv_ffmpeg2413_64.dll");
 
 		//System.loadLibrary("opencv_java249");
 		Mat m=Highgui.imread(args,Highgui.CV_LOAD_IMAGE_COLOR);
