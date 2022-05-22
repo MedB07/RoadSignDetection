@@ -28,7 +28,7 @@ import org.opencv.imgproc.Imgproc;
 public class AnalyseVideo {
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		System.load("C:\\Users\\nadra\\Downloads\\opencv\\build\\x64\\vc12\\bin\\opencv_ffmpeg2413_64.dll");
+		System.load("C:\\Program Files\\opencv\\build\\x64\\vc12\\bin\\opencv_ffmpeg2413_64.dll");
 
 	}
 
@@ -45,8 +45,9 @@ public class AnalyseVideo {
 		Mat frame = new Mat();
 		VideoCapture camera = new VideoCapture("video1.avi");
 		Mat PanneauAAnalyser = null;
-		
-			while (camera.read(frame)) {
+		double [] scores=new double [6];
+		while (camera.read(frame)) {
+			//A completer
 				//ImageIcon image = new ImageIcon(Function.Mat2bufferedImage(frame));
 				ImageIcon image = new ImageIcon(Mat2bufferedImage(frame));
 				vidpanel.setIcon(image);
@@ -54,31 +55,36 @@ public class AnalyseVideo {
 				Mat saturee=MaBibliothequeTraitementImage.seuillage(trans_HSV, 6, 170, 110);
 				Mat objetrond = null;
 				
-				List<MatOfPoint> ListeContours= MaBibliothequeTraitementImageEtendue.ExtractContours(saturee);
+			List<MatOfPoint> ListeContours= MaBibliothequeTraitementImageEtendue.ExtractContours(saturee);
+				
+				int i=0;
+				int a =0;  //compteur de null
+
+				//System.out.println(objetrond);
 				
 				
-				double [] scores=new double [6];
 				
 				for (MatOfPoint contour: ListeContours  ){
 					objetrond=MaBibliothequeTraitementImageEtendue.DetectForm(frame,contour);
-					
+					//System.out.println(objetrond);
 					//objetrond=MaBibliothequeTraitementImage.DetectForm(m,contour);
 					//objetrond=utils.DetecterCercles(transformee);
 
 					if (objetrond!=null){
+						System.out.println(objetrond);
 						MaBibliothequeTraitementImage.afficheImage("Objet rond detécté", objetrond);
-						scores[0]=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref30.jpg");
-						scores[1]=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref50.jpg");
-						scores[2]=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref70.jpg");
-						scores[3]=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref90.jpg");
-						scores[4]=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref110.jpg");
-						scores[5]=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"refdouble.jpg");
-						System.out.println(scores[0]);
+						scores[0]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref30.jpg");
+						scores[1]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref50.jpg");
+						scores[2]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref70.jpg");
+						scores[3]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref90.jpg");
+						scores[4]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"ref110.jpg");
+						scores[5]+=MaBibliothequeTraitementImageEtendue.Similitude(objetrond,"refdouble.jpg");
+						/*System.out.println(scores[0]);
 						System.out.println(scores[1]);
 						System.out.println(scores[2]);
 						System.out.println(scores[3]);
 						System.out.println(scores[4]);
-						System.out.println(scores[5]);
+						System.out.println(scores[5]);*/
 						//recherche de l'index du maximum et affichage du panneau detecté
 						double scoremax=-1;
 						int indexmax=0;
@@ -90,14 +96,27 @@ public class AnalyseVideo {
 						if(scoremax<0){System.out.println("Aucun Panneau détécté");}
 						else{switch(indexmax){
 						case -1:;break;
-						case 0:System.out.println("Panneau 30 détécté");break;
+						/*case 0:System.out.println("Panneau 30 détécté");break;
 						case 1:System.out.println("Panneau 50 détécté");break;
 						case 2:System.out.println("Panneau 70 détécté");break;
 						case 3:System.out.println("Panneau 90 détécté");break;
 						case 4:System.out.println("Panneau 110 détécté");break;
-						case 5:System.out.println("Panneau interdiction de dépasser détécté");break;
+						case 5:System.out.println("Panneau interdiction de dépasser détécté");break;*/
 						}}
 
+					}
+					
+					if(objetrond==null) {
+						a++;
+					}
+					if(a>30) {
+						scores[0]=0;
+						scores[1]=0;
+						scores[2]=0;
+						scores[3]=0;
+						scores[4]=0;
+						scores[5]=0;
+						a=0;	
 					}
 				}
 

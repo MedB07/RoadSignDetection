@@ -122,8 +122,6 @@ public class MaBibliothequeTraitementImage {
 		//image saturée à retourner
 		return rouges;
 
-
-
 	}
 	
 	
