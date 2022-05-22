@@ -58,7 +58,7 @@ public class MaBibliothequeTraitementImageEtendue {
 
 	
 	
-	//Contient toutes les méthodes necessaires à la transformation des images
+	//Contient toutes les mÃ©thodes necessaires Ã  la transformation des images
 
 
 	//Methode qui permet de transformer une matrice intialement au  format BGR au format HSV
@@ -103,7 +103,7 @@ public class MaBibliothequeTraitementImageEtendue {
 
 	//Methode qui permet d'extraire les contours d'une image donnee
 	public static List<MatOfPoint> ExtractContours(Mat input) {
-		// Detecter les contours des formes trouvées
+		// Detecter les contours des formes trouvÃ©es
 		int thresh = 100;
 		Mat canny_output = new Mat();
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -142,7 +142,7 @@ public class MaBibliothequeTraitementImageEtendue {
 		// Cherche le plus petit cercle entourant le contour
 		Imgproc.minEnclosingCircle(matOfPoint2f, center, radius);
 		//System.out.println(contourArea+" "+Math.PI*radius[0]*radius[0]);
-		//on dit que c'est un cercle si l'aire occupé par le contour est à supérieure à  80% de l'aire occupée par un cercle parfait
+		//on dit que c'est un cercle si l'aire occupÃ© par le contour est Ã  supÃ©rieure Ã   80% de l'aire occupÃ©e par un cercle parfait
 		if ((contourArea / (Math.PI*radius[0]*radius[0])) >=0.8 ) {
 			//System.out.println("Cercle");
 			Core.circle(img, center, (int)radius[0], new Scalar(255, 0, 0), 2);
@@ -201,7 +201,7 @@ public static Mat DetectFormim(Mat img,MatOfPoint contour) {
 		// Cherche le plus petit cercle entourant le contour
 		Imgproc.minEnclosingCircle(matOfPoint2f, center, radius);
 		//System.out.println(contourArea+" "+Math.PI*radius[0]*radius[0]);
-		//on dit que c'est un cercle si l'aire occupé par le contour est à supérieure à  80% de l'aire occupée par un cercle parfait
+		//on dit que c'est un cercle si l'aire occupÃ© par le contour est Ã  supÃ©rieure Ã   80% de l'aire occupÃ©e par un cercle parfait
 		if ((contourArea / (Math.PI*radius[0]*radius[0])) >=0.8 ) {
 			//System.out.println("Cercle");
 			Core.circle(img, center, (int)radius[0], new Scalar(255, 0, 0), 2);
@@ -250,7 +250,7 @@ public static Mat DetectFormim(Mat img,MatOfPoint contour) {
 	
 
 	
-	//methode à completer
+	//methode Ã  completer
 	/*public static double Similitude(Mat object,String signfile) {
 
 		// Conversion du signe de reference en niveaux de gris et normalisation
@@ -260,7 +260,7 @@ public static Mat DetectFormim(Mat img,MatOfPoint contour) {
 				Core.normalize(graySign, graySign, 0, 255, Core.NORM_MINMAX);
 				Mat signeNoirEtBlanc=new Mat();
 
-		//Conversion du panneau extrait de l'image en gris et normalisation et redimensionnement à la taille du panneau de réference
+		//Conversion du panneau extrait de l'image en gris et normalisation et redimensionnement Ã  la taille du panneau de rÃ©ference
 				Mat grayObject = new Mat(panneauref.rows(), panneauref.cols(), panneauref.type());
 				Imgproc.resize(object, object, graySign.size());
 				Imgproc.cvtColor(object, grayObject, Imgproc.COLOR_BGRA2GRAY);
@@ -283,7 +283,7 @@ public static Mat DetectFormim(Mat img,MatOfPoint contour) {
 		
 		
 	}*/
-		public static double Similitude(Mat src,String objectfile) {
+	public static double Similitude(Mat src,String objectfile) {
 
 			// Conversion du signe de reference en niveaux de gris et normalisation
 					Mat sroadSign= Highgui.imread(objectfile);
@@ -291,7 +291,7 @@ public static Mat DetectFormim(Mat img,MatOfPoint contour) {
 					Mat object = new Mat();
 					Imgproc.resize( src, object, sroadSign.size() );
 					Imgproc.resize(object, sObject, sroadSign.size());
-					//Conversion du panneau extrait de l'image en gris et normalisation et redimensionnement à la taille du panneau de réference
+					//Conversion du panneau extrait de l'image en gris et normalisation et redimensionnement Ã  la taille du panneau de rÃ©ference
 					Mat grayObject = new Mat(sObject.rows(), sObject.cols(), sObject.type());
 					Imgproc.cvtColor(sObject, grayObject, Imgproc.COLOR_BGRA2GRAY);
 					Core.normalize(grayObject, grayObject, 0, 255, Core.NORM_MINMAX);
@@ -365,6 +365,7 @@ public static Mat DetectFormim(Mat img,MatOfPoint contour) {
 					return better_matches_mat.size().height;
 						
 		}
+
 		
 	
 	public static double SimilitudeDB(Mat src,String objectfile,Connection con) throws Exception {
@@ -372,7 +373,7 @@ public static Mat DetectFormim(Mat img,MatOfPoint contour) {
 		Mat sroadSign= Highgui.imread(objectfile);
 		Mat sObject=new Mat();
 		Imgproc.resize(src, sObject, sroadSign.size());
-		//Conversion du panneau extrait de l'image en gris et normalisation et redimensionnement à la taille du panneau de réference
+		//Conversion du panneau extrait de l'image en gris et normalisation et redimensionnement Ã  la taille du panneau de rÃ©ference
 		Mat grayObject = new Mat(sObject.rows(), sObject.cols(), sObject.type());
 		Imgproc.cvtColor(sObject, grayObject, Imgproc.COLOR_BGRA2GRAY);
 		Core.normalize(grayObject, grayObject, 0, 255, Core.NORM_MINMAX);
